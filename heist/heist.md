@@ -56,7 +56,7 @@ So it looks like potentially a Windows-based web app, we've got **80**, **135**,
 
 ![Login](./images/login.png)
 
-/**Figure 1:** Login page
+**Figure 1:** Login page
 
 We are prompted with a login page. No credentials, but it might let us log in as guest - let's try that.
 
