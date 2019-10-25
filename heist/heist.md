@@ -1,20 +1,16 @@
 ---
 title: "Hack The Box - Heist"
 author: Spencer Buchanan
-date: "2019-10-21"
-subject: "CTF Writeup Template"
-keywords: [HTB, CTF, Hack The Box, Security]
-lang: "en"
-titlepage: true
-titlepage-text-color: "FFFFFF"
-titlepage-color: "0c0d0e"
-titlepage-rule-color: "8ac53e"
-logo: "./images/info_card.png"
-logo-width: 350
-...
+date: "2019-10-25"
+layout: post
+description: Hack the Box - Heist writeup
+permalink: /hack-the-box-heist/
+categories:
+  - writeup
+
+---
 ![info_card](./images/info_card.png)
 
-Heist - 10.10.10.149
 
 # Information Gathering
 
