@@ -14,7 +14,7 @@ categories:
 
 # Information Gathering
 
-## Nmap
+### Nmap
 
 Starting off with my typical nmap scan:
 
@@ -179,10 +179,9 @@ Nothing super interesting in those - no access to any of the directories. Just k
 
 The passwords appear to be two different kinds:
 
-```enable secret 5 $1$pdQG$o8nrSzsGXeaduXrjlvKc91```
-
-```username rout3r password 7 0242114B0E143F015F5D1E161713```
-```username admin privilege 15 password 7 02375012182C1A1D751618034F36415408```
+```enable secret 5 $1$pdQG$o8nrSzsGXeaduXrjlvKc91```  
+```username rout3r password 7 0242114B0E143F015F5D1E161713```  
+```username admin privilege 15 password 7 02375012182C1A1D751618034F36415408```  
 
 The ones that appear to belong to user rout3r and user admin are type 7 Cisco passwords (this was newly acquired knowledge, not something I already knew) and were easily cracked with this tool: http://www.ifm.net.nz/cookbooks/passwordcracker.html
 
