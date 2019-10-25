@@ -16,7 +16,7 @@ categories:
 
 ## Nmap
 
-Starting off once again with my typical nmap scan:
+Starting off with my typical nmap scan:
 
 ```console
 root@endeavour:~/htb/heist# nmap -sV -sC 10.10.10.149 -oA 10-10-10-149
