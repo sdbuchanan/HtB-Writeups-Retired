@@ -110,7 +110,7 @@ line vty 0 4
 ```
 Sure looks like its at least part of an IOS config. Interesting that there are some usernames and passwords or password hashes located in it. Lets see what we can do with those. But before we do we should try to be efficient with our time, lets also kick off nikto and dirb scans:
 
-## Nikto
+### Nikto
 ```console
 root@endeavour:~/htb/heist# nikto -h http://10.10.10.149
 - Nikto v2.1.6
@@ -136,7 +136,7 @@ root@endeavour:~/htb/heist# nikto -h http://10.10.10.149
 ---------------------------------------------------------------------------
 + 1 host(s) tested
 ```
-## Dirb
+### Dirb
 ```
 root@endeavour:~/htb/heist# dirb http://10.10.10.149 /usr/share/dirb/wordlists/common.txt
 
