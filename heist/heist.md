@@ -54,13 +54,12 @@ Nmap done: 1 IP address (1 host up) scanned in 54.75 seconds
 
 So it looks like potentially a Windows-based web app, we've got **80**, **135**, **445** open. Let's head over to https://10.10.10.149:80 and see what's happening:
 
-![Login](./images/login.png)
-
+![Login](./images/login.png)  
 **Figure 1:** Login page
 
 We are prompted with a login page. No credentials, but it might let us log in as guest - let's try that.
 
-![Thread](./images/Thread.png)
+![Thread](./images/Thread.png)  
 **Figure 2:** Thread
 
 We are greeted with a thread of some kind where the user Hazard is having an issue with his cisco router, and the Support Admin is assisting. There is also an attachment - of which I assume will be an IOS config:
