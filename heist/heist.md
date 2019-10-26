@@ -62,7 +62,7 @@ We are prompted with a login page. No credentials, but it might let us log in as
 ![Thread](./images/Thread.png)  
 **Figure 2:** Thread
 
-There is also an attachment - of which I assume will be an IOS config:
+There is also an attachment I assume to be a Cisco IOS config:
 
 ```console
 version 12.2
