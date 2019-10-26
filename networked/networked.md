@@ -98,13 +98,7 @@ lets go to http://10.10.10.146:80. It just has plain html saying:
 Help by funding us and be the new Tyler&Cameron!
 Join us at the pool party this Sat to get a glimpse"
 ```
-### Robots, Dirb, Nikto
-
-```console
-root@endeavour:~/htb/networked# curl -i 10.10.10.146/robots.txt
-HTTP/1.1 404 Not Found
-```
-Nothing interesting in robots to pursue further.
+### Dirb
 
 ```console
 root@endeavour:~/htb/networked# dirb http://10.10.10.146 /usr/share/dirb/wordlists/common.txt
@@ -139,6 +133,7 @@ GENERATED WORDS: 4612
 END_TIME: Fri Oct  4 14:40:59 2019
 DOWNLOADED: 9224 - FOUND: 3
 ```
+### Nikto
 
 ```console
 root@endeavour:~/htb/networked# nikto -host 10.10.10.146
