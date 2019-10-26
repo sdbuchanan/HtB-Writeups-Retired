@@ -89,32 +89,12 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 19.80 seconds
            Raw packets sent: 1305 (57.396KB) | Rcvd: 1055 (42.196KB)
 ```
-Ports **22** and **80**. Lets focus on 80 first - head over to http://10.10.10.157/ and we get the default apache page:
+Ports **22** and **80**. I want to focus on 80 first - over to http://10.10.10.157/ and I get the default apache page:
 
 ![Apache](./images/apache.png)
 **Figure 1:** Apache
 
-### Robots, Nikto, Dirb
-
-```console
-root@endeavour:~/htb/wall# curl -i 10.10.10.157/robots.txt
-HTTP/1.1 404 Not Found
-Date: Wed, 02 Oct 2019 19:21:07 GMT
-Server: Apache/2.4.29 (Ubuntu)
-Content-Length: 286
-Content-Type: text/html; charset=iso-8859-1
-
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>404 Not Found</title>
-</head><body>
-<h1>Not Found</h1>
-<p>The requested URL /robots.txt was not found on this server.</p>
-<hr>
-<address>Apache/2.4.29 (Ubuntu) Server at 10.10.10.157 Port 80</address>
-</body></html>
-```
-Not much interesting in robots.
+### Nikto
 
 ```console
 root@endeavour:~/htb/wall# nikto -host 10.10.10.157
@@ -138,29 +118,11 @@ root@endeavour:~/htb/wall# nikto -host 10.10.10.157
 ---------------------------------------------------------------------------
 + 1 host(s) tested
 ```
-Not much interesting in Nikto today and nothing immediately strikes me as interesting with apache either. We'll hang onto these results just in case but I feel like we don't know enough about our target yet:
+Not too much interesting in Nikto, and nothing immediately strikes me as interesting with apache either. We'll hang onto these results just in case, but I feel like we don't know enough about our target yet.
 
-```console
-root@endeavour:~/htb/wall# searchsploit apache 2.4
----------------------------------------------------------------- ----------------------------------------
- Exploit Title                                                  |  Path
-                                                                | (/usr/share/exploitdb/)
----------------------------------------------------------------- ----------------------------------------
-Apache 2.2.4 - 413 Error HTTP Request Method Cross-Site Scripti | exploits/unix/remote/30835.sh
-Apache 2.4.17 - Denial of Service                               | exploits/windows/dos/39037.php
-Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Loca | exploits/linux/local/46676.php
-Apache 2.4.23 mod_http2 - Denial of Service                     | exploits/linux/dos/40909.py
-Apache 2.4.7 + PHP 7.0.2 - 'openssl_seal()' Uninitialized Memor | exploits/php/remote/40142.php
-Apache 2.4.7 mod_status - Scoreboard Handling Race Condition    | exploits/linux/dos/34133.txt
-Apache < 2.2.34 / < 2.4.27 - OPTIONS Memory Leak                | exploits/linux/webapps/42745.py
-Apache Tomcat 3.2.3/3.2.4 - 'RealPath.jsp' Information Disclosu | exploits/multiple/remote/21492.txt
-Apache Tomcat 3.2.3/3.2.4 - 'Source.jsp' Information Disclosure | exploits/multiple/remote/21490.txt
-Apache Tomcat 3.2.3/3.2.4 - Example Files Web Root Full Path Di | exploits/multiple/remote/21491.txt
----------------------------------------------------------------- ----------------------------------------
-Shellcodes: No Result
-```
+### Dirb
 
-Dirb does come back with some actual results with the standard common wordlist:
+Dirb does come back with some actual results using common wordlist:
 
 ```console
 root@endeavour:~/htb/wall# dirb http://10.10.10.157 /usr/share/dirb/wordlists/common.txt
@@ -186,12 +148,34 @@ GENERATED WORDS: 4612
 END_TIME: Wed Oct  2 15:40:36 2019
 DOWNLOADED: 4612 - FOUND: 3
 ```
-A few interestings; index.html is our apache default page. /monitoring and /server-status both require authentication. I think this is probably the correct direction. We should explore further. Lets try dirb with a larger wordlist: ```/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt```
+A few interesting things: `/monitoring` and `/server-status` both require authentication. I think this is probably the correct direction. We should explore further. Lets try dirb with a larger wordlist: `/usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt`
 
 I also tried DirBuster and got a few different results:
 
 ![dirbuster](./images/dirbuster.png)
 **Figure 2:** Dirbuster
+
+## User Flag
+
+```console
+root@endeavour:~/htb/wall# searchsploit apache 2.4
+---------------------------------------------------------------- ----------------------------------------
+ Exploit Title                                                  |  Path
+                                                                | (/usr/share/exploitdb/)
+---------------------------------------------------------------- ----------------------------------------
+Apache 2.2.4 - 413 Error HTTP Request Method Cross-Site Scripti | exploits/unix/remote/30835.sh
+Apache 2.4.17 - Denial of Service                               | exploits/windows/dos/39037.php
+Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Loca | exploits/linux/local/46676.php
+Apache 2.4.23 mod_http2 - Denial of Service                     | exploits/linux/dos/40909.py
+Apache 2.4.7 + PHP 7.0.2 - 'openssl_seal()' Uninitialized Memor | exploits/php/remote/40142.php
+Apache 2.4.7 mod_status - Scoreboard Handling Race Condition    | exploits/linux/dos/34133.txt
+Apache < 2.2.34 / < 2.4.27 - OPTIONS Memory Leak                | exploits/linux/webapps/42745.py
+Apache Tomcat 3.2.3/3.2.4 - 'RealPath.jsp' Information Disclosu | exploits/multiple/remote/21492.txt
+Apache Tomcat 3.2.3/3.2.4 - 'Source.jsp' Information Disclosure | exploits/multiple/remote/21490.txt
+Apache Tomcat 3.2.3/3.2.4 - Example Files Web Root Full Path Di | exploits/multiple/remote/21491.txt
+---------------------------------------------------------------- ----------------------------------------
+Shellcodes: No Result
+```
 
 At this point I had lost connection with the box, so I bounced it and re-connected. I re-ran all the above scans and ended up coming out with our first actionable item: http://10.10.10.157/centreon/. Its a web app with a login page. According to google the default credentials to this app are either root or admin and password centreon. Neither combination worked - that'd be too easy anyway. Search for a Centreon exploit next:
 
