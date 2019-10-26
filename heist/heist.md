@@ -176,6 +176,8 @@ DOWNLOADED: 27672 - FOUND: 1
 ```
 Nothing super interesting in those - no access to any of the directories. Just keep them in our back pocket for now.
 
+## User Flag
+
 The passwords appear to be two different kinds:
 
 ```enable secret 5 $1$pdQG$o8nrSzsGXeaduXrjlvKc91```  
@@ -353,11 +355,11 @@ Nmap done: 1 IP address (1 host up) scanned in 143.06 seconds
 ```
 Enter ports **5985** and **49669**. 
 
-**5985** is a Windows remote management protcol port
+**5985** - This is a Windows remote management protcol port.
 
-**49669** I can't find too much about this port nmap is saying that its a Windows RPC port.
+**49669** - I can't find too much about this port, but nmap is saying that its a Windows RPC port.
 
-I wanted to enumerate a little more before deciding what direction to go. I tried a few more of the impacket tools without many results until I got to https://github.com/SecureAuthCorp/impacket/blob/master/examples/lookupsid.py:
+I wanted to enumerate a little more before deciding what direction to go. I tried a few more of the impacket tools without many results until I got to [lookupsid.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/lookupsid.py):
 
 ```console
 root@endeavour:/usr/local/bin# python lookupsid.py hazard:stealth1agent@10.10.10.149
@@ -377,7 +379,7 @@ Impacket v0.9.21-dev - Copyright 2019 SecureAuth Corporation
 1013: SUPPORTDESK\Jason (SidTypeUser)
 ```
 
-Great - so we got the workgroup: SUPPORTDESK and a bunch of other users we can try. Lets update our credential table:
+Great - so I got the workgroup: SUPPORTDESK and a bunch of other users I can try. Lets update our credential table:
 
 |Username|Password|
 |:---:|:---:|
@@ -390,9 +392,9 @@ Great - so we got the workgroup: SUPPORTDESK and a bunch of other users we can t
 |Administrator | |
 |Guest | |
 
-Enumerating on the port that actually had something to it, **5985**, I did find a tool that we can use in conjunction that open port: https://github.com/Hackplayers/evil-winrm
+From here I started on the port that actually had something to it, **5985**. I did find a tool that I can use in conjunction that open port: [Evil-WinRM](https://github.com/Hackplayers/evil-winrm).
 
-Manually bruteforcing through all the combinations of credentials is what I deemed the most efficient at the time, and we did end up getting some success:
+Manually bruteforcing through all the combinations of credentials is what I deemed the most efficient at the time, and I did end up getting some success:
 
 ```console
 root@endeavour:~/htb/heist/evil-winrm# ./evil-winrm.rb -i 10.10.10.149 -u Chase -p 'Q4)sJu\Y8qz*A3?d'
@@ -467,7 +469,7 @@ Done:
 1. Restricted access for guest user.
 ```
 
-Interesting, if we take this at face value - the guest account is restricted, but there is a broken router config somewhere and there might be new issues in an issues list. Not sure what or where that is yet. Again, lets pocket that for later and just keep an eye out as we enumerate for privilege escalation paths.
+Interesting, if I take this at face value - the guest account is restricted, but there is a broken router config somewhere and there might be new issues in an issues list. Not sure what or where that is yet. Again, lets pocket that for later and just keep an eye out as I enumerate for privilege escalation paths.
 
 I do not do that many Windows machines, as odd as it may seem being primarily a windows user, I am more comfortable in my linux enumeration and privilege escalation. I did have in my notes from OSCP a Windows Enumeration script that served me well: https://github.com/411Hall/JAWS. It was pretty simple to get it over to the box using EvilWinRM.
 
@@ -494,7 +496,7 @@ Windows Portable Devices
 Windows Security                           
 WindowsPowerShell
 ```
-In thinking about the hint we were given in the todo.txt, where would someone be keeping track of an issues list? The only things from the above list are **php**, and **firefox**, and when we did a Get-Processes firefox has 4 running processes. Lets take a look at that:
+In thinking about the hint was were given in the `todo.txt`, where would someone be keeping track of an issues list? The only things from the above list are **php**, and **firefox**, and when I did a Get-Processes firefox has 4 running processes. Lets take a look at that:
 
 ```console
 *Evil-WinRM* PS C:\Program Files\Mozilla Firefox> $PSVersionTable
@@ -517,7 +519,7 @@ In moving back to firefox - I came across this: https://securityonline.info/proc
 
 Procdump is a CLI utility that can monitor an application as it crashes and create diagnostic dumps of data. In taking a look at the running processes again - firefox was eating up a ton of CPU, maybe it was already in a crashed state? I decided to give this a try and got an Powershlle Mafia procdump over to the box and tested it out:
 
-https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Out-Minidump.ps1
+[PowerShellMafia: Out-Minidump.ps1](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Out-Minidump.ps1)
 
 ```console
 Evil-WinRM* PS C:\Users\Chase\Documents> Out-Minidump -Process (Get-Process -Id 6152)
