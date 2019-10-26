@@ -189,7 +189,7 @@ The ones that appear to belong to user rout3r and user admin are type 7 Cisco pa
 ```username rout3r password 7 0242114B0E143F015F5D1E161713 = $uperP@ssword```  
 ```username admin privilege 15 password 7 02375012182C1A1D751618034F36415408 = Q4)sJu\Y8qz*A3?d```  
 
-The secret 5 one - I made the assumption that since the two that cracked were type 7, this must be a type 5 one. I found a tool: https://github.com/axcheron/cisco_pwdecrypt that I was able to run and crack that password as well:
+The secret 5 one - I made the assumption that since the two that cracked were type 7, this must be a type 5 one. I found a tool: [cisco_pwdecrypt](https://github.com/axcheron/cisco_pwdecrypt) that I was able to run and crack that password as well:
 
 ```console
 
