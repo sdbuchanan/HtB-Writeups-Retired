@@ -236,7 +236,7 @@ Reconnecting with SMB1 for workgroup listing.
 do_connect: Connection to 10.10.10.149 failed (Error NT_STATUS_IO_TIMEOUT)
 Failed to connect with SMB1 -- no workgroup available
 ```
-Lets see if we can dig any further, adn this time lets try a password:
+Lets see if we can dig any further:
 
 ```console
 root@endeavour:~/htb/heist/# smbmap -H 10.10.10.149 -u Hazard -p 'stealth1agent'
@@ -250,7 +250,7 @@ root@endeavour:~/htb/heist/# smbmap -H 10.10.10.149 -u Hazard -p 'stealth1agent'
 	IPC$                                              	READ ONLY
 ```
 
-So it looks like we have read access to IPC$. Searching again for tools to poke this further gets us to https://github.com/SecureAuthCorp/impacket. Lets use a tool from this suite: https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbclient.py
+So it looks like we have read access to IPC$. Searching again for tools to poke this further gets us to a tool called [impacket](https://github.com/SecureAuthCorp/impacket). Lets use a tool from this suite called [smbclient.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbclient.py)
 
 ```console
 root@endeavour:~/impacket/examples# ./smbclient.py hazard:stealth1agent@10.10.10.149
