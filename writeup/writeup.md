@@ -148,8 +148,7 @@ Also, this may be a shitty assumption that I should not be making, the original 
 
 ### User Flag  
 
-I will start with Apache and look for any 2.4.25 vulnerabilities: [Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Local Privilege Escalation](https://www.exploit-db.com/exploits/46676). Not relevant for initial access, but perhaps we can use this to get root?
-(a few hours pass here)
+I will start with Apache and look for any 2.4.25 vulnerabilities: [Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Local Privilege Escalation](https://www.exploit-db.com/exploits/46676). Not relevant for initial access, but perhaps we can use this to get root?  
 Not much luck with Apache, I didn't find anything that worked in exploitdb. I don’t want to spend more than an hour going deep in what could be a rabbit hole. Time to move onto CMS made simple: In googling around for interesting stuff, I found this: [CVE-2018-10517: CMS Made Simple 2.2.7](https://github.com/0x00-0x00/CVE-2018-10517) 
 
 In the powershell for for this CVE there is an interesting thing:
@@ -158,12 +157,12 @@ Write-Output "Trying to install exploit module over CMS Made Simple ..."
     $Response = Invoke-WebRequest -Method "POST" -URI "$URL/admin/moduleinterface.php" -WebSession $WebSession -Body $Payload -Headers $Headers
     if($Response.Content -Match "Module imported")
 ```
-So, if I am reading it correctly, it looks like the url root should have /admin/ after it – let’s try it:
+So, if I am reading it correctly, it looks like the url root should have `/admin/` after it – let’s try it:
 
 ![Admin](./images/admin.png)  
 **Figure 5:** Admin
 
-Cool, its prompting for authentication. This seems like a thing we should enumerate further. I can't seem to find the version of CMS Made Simple. Let’s just start with the current version: 2.2.11 and exploitdb it: https://www.exploit-db.com/exploits/46635 
+Cool, its prompting for authentication. This seems like a thing we should enumerate further. I can't seem to find the version of CMS Made Simple. Let’s just start with the current version: 2.2.11 and exploitdb it [CMS Made Simple <2.2.10 - SQL Injection](https://www.exploit-db.com/exploits/46635)  
 
 Looks like we need to pip install termcolor and get a word list, I like to use rockyou.txt because its dumb to waste time brute forcing and most other boxes I’ve used also use the same list. Let’s run the exploit and see what we get:
 
@@ -207,9 +206,9 @@ jkr@writeup:~$
 ```
 There we have the user flag. 
 
-## Root Flag
+### Root Flag
 
-Time to privesc. It’s a linux box, so first things first lets get my favorite recon script to the box – I copied raw from github:
+Time to PrivEsc. It’s a linux box, so first things first lets get my favorite recon script to the box – I copied raw from github:
 
 ```console
 jkr@writeup:~/tmp$ touch linenum.sh
