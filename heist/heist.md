@@ -110,6 +110,7 @@ line vty 0 4
 Interesting that there are some usernames and passwords or password hashes located in it. Lets see what we can do with those, but before we do we should try to be efficient with our time -- lets also kick off nikto and dirb scans:
 
 ### Nikto
+
 ```console
 root@endeavour:~/htb/heist# nikto -h http://10.10.10.149
 - Nikto v2.1.6
