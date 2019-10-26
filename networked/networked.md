@@ -329,7 +329,7 @@ cat crontab.guly
 */3 * * * * php /home/guly/check_attack.php
 ```
 
-So that means every 3 minutes, check_attack.php should run. When we check out check_attack we see
+So that means every 3 minutes **check_attack.php** should run, and look at the script itself:
 
 ```php
 <?php
