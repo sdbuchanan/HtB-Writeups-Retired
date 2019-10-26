@@ -132,14 +132,14 @@ Disallow `/writeup/` - let's go find out what that is:
 ![10.10.10.138/writeup/](./images/writeup.png)  
 **Figure 2:** 10.10.10.138/writeup/
 
-Each page is a writeup to a few different machines, I don’t immediately see anything in the writeups that is helpful, but I need to remember to check back in.
+Each page is a writeup to a few different machines, I don’t immediately see anything in the writeups that is helpful, but I need to remember to check back in if I find any other clues that might point us back.
 
 One thing I notice is that every page except for the original home page has a little message at the bottom:
 
 ![Vim. NOT.](./images/vim.png)  
 **Figure 3:** Vim. NOT.
 
-The Wappalyzer Firefox extension shows the /writeup/ page to be using:
+The [Wappalyzer](https://www.wappalyzer.com/) Firefox extension shows the `/writeup/` page to be using:
 
 ![Wappalyzer](./images/wappalyzer.png)  
 **Figure 4:** Wappalyzer
@@ -148,8 +148,8 @@ Also, this may be a shitty assumption that I should not be making, the original 
 
 ### User Flag  
 
-Start with Apache and look for any 2.4.25 vulnerabilities: Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Local Privilege Escalation. Not relevant for initial access, but perhaps we can use this to get root.
-(Some time passes)
+I will start with Apache and look for any 2.4.25 vulnerabilities: [Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Local Privilege Escalation](https://www.exploit-db.com/exploits/46676). Not relevant for initial access, but perhaps we can use this to get root?
+(a few hours pass here)
 Not much luck with Apache, I didn't find anything that worked in exploitdb. I don’t want to spend more than an hour going deep in what could be a rabbit hole. Time to move onto CMS made simple: In googling around for interesting stuff, I found this: [CVE-2018-10517: CMS Made Simple 2.2.7](https://github.com/0x00-0x00/CVE-2018-10517) 
 
 In the powershell for for this CVE there is an interesting thing:
