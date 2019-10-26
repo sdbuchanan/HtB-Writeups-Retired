@@ -164,7 +164,7 @@ So, if I am reading it correctly, it looks like the url root should have `/admin
 
 Cool, its prompting for authentication. This seems like a thing we should enumerate further. I can't seem to find the version of CMS Made Simple. Let’s just start with the current version: 2.2.11 and exploitdb it [CMS Made Simple <2.2.10 - SQL Injection](https://www.exploit-db.com/exploits/46635)  
 
-Looks like we need to pip install termcolor and get a word list, I like to use rockyou.txt because its dumb to waste time brute forcing and most other boxes I’ve used also use the same list. Let’s run the exploit and see what we get:
+Looks like we need to `pip install termcolor` and get a word list, I like to use `rockyou.txt` because its dumb to waste time brute forcing and most other boxes I’ve used also use the same list. Let’s run the exploit and see what we get:
 
 ![Exploit](./images/exploit.gif)  
 **Figure 5:** exploit
@@ -179,9 +179,9 @@ root@endeavour:~/htb/writeup# python ./exploit.py -u http://10.10.10.138/writeup
 [+] Password cracked: raykayjay9
 root@endeavour:~/htb/writeup#
 ```
-That was sweet – it was like a real hackerman movie hack. Where do I use these creds though? There was the http://10.10.10.138/writeup/admin thing but that doesn’t seem to work and neither does the link from the NetSec Focus Mattermost link on the /writeup/ url.
+That was sweet – it was like a real hackerman movie hack. Where do I use these creds though? There was the http://10.10.10.138/writeup/admin thing but that doesn’t seem to work and neither does the link from the `NetSec Focus Mattermost` link on the `/writeup/` url.
 
-Enumerate dummy, what else can we log into? SSH!
+Enumerate dummy, what else can we log into? **SSH**!
 
 ```console
 root@endeavour:~/htb/writeup# ssh jkr@10.10.10.138
