@@ -285,7 +285,7 @@ root      1803  0.0  1.5 431184 16096 ?        Sl   17:19   0:03 /usr/bin/python
 
 ### SCAN COMPLETE ####################################
 ```
-There are a lot of data to look at here and I spent a lot of time going through it all and making a lot of terrible assumptions. I removed a lot of the results for the sake of not making anyone read through it for no reason. Thinking about what little I know about privesc, the concept of taking over a thing that is running or can run as a more privileged user. This typically requires a trigger to initiate the action. This can be a cron job/scheduled task or some action that I also have control over. I then remembered that Eeyore DoS protection – this must be the fail2ban thing and what do you know, its running as root! 
+There are a lot of data to look at here and I spent a lot of time going through it all and making a lot of terrible assumptions that cost me time. The concept of privilege escalation is exploiting a flaw in where that whatever is being run typically is being run by a user with higher rights than you do, and in my experience this typically requires a trigger to initiate the action. This can be a cron job/scheduled task or some action that I also have control over. I then remembered that Eeyore DoS protection – this must be the fail2ban thing and what do you know, its running as root! 
 
 This piques my interest very much. It is a mechanism that we can use to trigger something to happen – remember I didn’t want to dirb the url?! How can we get control over it? Look at our $PATH:
 
