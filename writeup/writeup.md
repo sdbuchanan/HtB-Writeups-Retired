@@ -208,7 +208,7 @@ There we have the user flag.
 
 ### Root Flag
 
-Time to PrivEsc. It’s a linux box, so first things first lets get my favorite recon script to the box – I copied raw from github:
+Time to PrivEsc. It’s a linux box, so first things first lets get my [favorite recon script](https://github.com/rebootuser/LinEnum) to the box and run it (for the sake of brevity I shortened it to only what is relevent):
 
 ```console
 jkr@writeup:~/tmp$ touch linenum.sh
