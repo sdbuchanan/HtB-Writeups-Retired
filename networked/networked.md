@@ -89,7 +89,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 14.41 seconds
            Raw packets sent: 1993 (87.668KB) | Rcvd: 16 (1.020KB)
 ```
-Looks like we've got **22** and **80** open but **443** is closed. That is interesting. Unsure of what to make of it for now.
+Looks like we've got **22** and **80** open but **443** is closed. That is interesting but I am unsure of what to make of it for now.
 
 lets go to http://10.10.10.146:80. It just has some plain ole html saying:
 
@@ -167,7 +167,7 @@ root@endeavour:~/htb/networked# nikto -host 10.10.10.146
 ```
 ## User Flag
 
-First thing that sticks out to me is the /backup/ directory dirb found. I saw that there was a tarball named backup located there. Let's grab that and see whats inside:
+First thing that sticks out to me is the `/backup/` directory dirb found. I saw that there was a tarball named **backup** located there. Let's grab that and see whats inside:
 
 ```console
 root@endeavour:~/htb/networked# wget 10.10.10.146/backup/backup.tar
@@ -189,10 +189,9 @@ upload.php
 
 2019-10-04 14:37:04 (31.4 MB/s) - ‘backup.tar’ saved [10240/10240]
 ```
-It looks like a bunch of php files, they seem to match the structure of the site we are looking at, named backup. I bet its what how the site works. Let's look:
+It looks like a bunch of php files, they seem to match the structure of the site we are looking at, named `backup`. I bet its what how the site works. Let's look:
 
 ```php
-root@endeavour:~/htb/networked# cat upload.php
 <?php
 require '/var/www/html/lib.php';
 
@@ -249,7 +248,7 @@ So, given my poor php comprehension I believe this is checking for valid image e
 
 Navigating to http://10.10.10.146/upload.php, it looks like it matches what we can see in the upload.php file itself. I created a test.txt file and tried to upload it. Sure enough - I was denied due to file type. I wanted to test to make sure it was functioning to allow so I found a random jpg image (A-10s are the best) and successfully uploaded it to 10.10.10.146/photos.php
 
-![Warthog](./images/warthog.png)
+![Warthog](./images/Warthog.png)
 \ **Figure 3:** Warthog
 
 In googling around for something that someone that I could use to leverage this I came across this: https://www.idontplaydarts.com/2012/06/encoding-web-shells-in-png-idat-chunks/
