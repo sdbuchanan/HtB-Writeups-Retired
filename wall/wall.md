@@ -220,7 +220,7 @@ Trying : password1
 ```
 There we go, usernmae **admin** password **password1**. This kinda feels kinda bad because we should have been able to guess this, but oh well. Learned a way to brutefoce with a CSRF token I gues.
 
-So now that we have credentials we can pivot back to that authenticated RCE (https://github.com/mhaskar/CVE-2019-13024/blob/master/Centreon-exploit.py)
+So now that we have credentials, we can pivot back to that authenticated RCE [CVE-2019-13024](https://github.com/mhaskar/CVE-2019-13024/blob/master/Centreon-exploit.py)
 
 ```python
 #!/usr/bin/python
