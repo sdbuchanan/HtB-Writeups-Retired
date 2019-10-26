@@ -155,7 +155,7 @@ I also tried DirBuster and got a few different results:
 ![dirbuster](./images/dirbuster.png)
 **Figure 2:** Dirbuster
 
-## User Flag
+## User (and root) Flag
 
 At this point I had lost connection with the box, so I bounced it and re-connected. I re-ran all the above scans and ended up coming out with our first actionable item: http://10.10.10.157/centreon/.
 
