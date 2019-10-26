@@ -1,23 +1,19 @@
 ---
 title: "Hack The Box - Networked"
 author: Spencer Buchanan
-date: "2019-10-21"
-subject: "CTF Writeup Template"
-keywords: [HTB, CTF, Hack The Box, Security]
-lang: "en"
-titlepage: true
-titlepage-text-color: "FFFFFF"
-titlepage-color: "0c0d0e"
-titlepage-rule-color: "8ac53e"
-logo: "./images/info_card.png"
-logo-width: 350
-...
+date: "2019-10-25"
+layout: post
+description: Hack the Box - Networked writeup
+permalink: /hack-the-box-networked/
+categories:
+  - writeup
+---
+# Networked
+![info_card](./images/info_card.png)
 
-Networked
+## Information Gathering
 
-# Information Gathering
-
-## Nmap
+### Nmap
 As usual, I start off with my typical nmap scan: 
 
 ```console
