@@ -519,7 +519,7 @@ In moving back to firefox - I came across this: https://securityonline.info/proc
 
 Procdump is a CLI utility that can monitor an application as it crashes and create diagnostic dumps of data. In taking a look at the running processes again - firefox was eating up a ton of CPU, maybe it was already in a crashed state? I decided to give this a try and got an Powershlle Mafia procdump over to the box and tested it out:
 
-[`PowerShellMafia: Out-Minidump.ps1`](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Out-Minidump.ps1)
+[PowerShellMafia:Out-Minidump.ps1](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Out-Minidump.ps1)
 
 ```console
 Evil-WinRM* PS C:\Users\Chase\Documents> Out-Minidump -Process (Get-Process -Id 6152)
@@ -532,9 +532,7 @@ Mode                LastWriteTime         Length Name
 ----                -------------         ------ ----                                                                                                                                                                                                    
 -a----       10/10/2019   5:29 AM      466390945 firefox_6152.dmp    
 ```
-Cool - so that worked, but there is a lot of shit in this thing and its something like 466MB, yikes. In comes the helpful get-content command:
-
-https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-content?view=powershell-6
+Cool - so that worked, but there is a lot of shit in this thing and its something like 466MB, yikes. In comes the helpful get-content command: [Get-Content Manpage](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-content?view=powershell-6)
 
 Lets try to just look for the word password?:
 
