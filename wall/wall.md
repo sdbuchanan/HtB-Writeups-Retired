@@ -1,19 +1,15 @@
 ---
 title: "Hack The Box - Wall"
 author: Spencer Buchanan
-date: "2019-10-21"
-subject: "CTF Writeup Template"
-keywords: [HTB, CTF, Hack The Box, Security]
-lang: "en"
-titlepage: true
-titlepage-text-color: "FFFFFF"
-titlepage-color: "0c0d0e"
-titlepage-rule-color: "8ac53e"
-logo: "./images/badge.png"
-logo-width: 350
-...
-
-*Everything below is just random stuff for the sake of example.*
+date: "2019-10-25"
+layout: post
+description: Hack the Box - Wall writeup
+permalink: /hack-the-box-wall/
+categories:
+  - writeup
+---
+# Wall
+![info_card](./images/info_card.png)
 
 # Information Gathering
 
