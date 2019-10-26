@@ -393,7 +393,7 @@ stat("/root/_netrc", 0x7ffd8a6299c0)    = -1 ENOENT (No such file or directory)
 poll([{fd=3, events=POLLIN}], 1, 0)     = 0 (Timeout)
 ```
 
-So I spent an awful long time right here. In trying to figure out why the exploit wasn't working I realized that creator of the box is conveniently the author of the exploit I was trying to execute -- Askar [@mohammadaskar2](https://twitter.com/mohammadaskar2?lang=en) -- I suppose he did not want it to be so easy to execute. In taking a look into the centreon config GUI (since we had the admin username and password and could log in) I located the field that we were getting 403'd on.
+So I spent an awful long time right here. In trying to figure out why the exploit wasn't working I realized that creator of the box is conveniently the author of the exploit I was trying to execute -- [@mohammadaskar2](https://twitter.com/mohammadaskar2?lang=en) -- I suppose he did not want it to be so easy to execute. In taking a look into the centreon config GUI (since we had the admin username and password and could log in) I located the field that we were getting 403'd on.
 
 ![Centreon Config](./images/centreon_misc.png)
 **Figure 3:** Centreon Config
@@ -461,7 +461,7 @@ Again to save space, I will cut out a lot of the output which I poured over for 
 -rwsr-xr-x 1 root root 10232 Mar 28  2017 /usr/lib/eject/dmcrypt-get-device
 ```
 
-Screen v 4.5 has a local priv esc vulnerability: https://www.exploit-db.com/exploits/41154
+Our screen version has a local privesc: [GNU Screen 4.5.0 - Local Privilege Escalation](https://www.exploit-db.com/exploits/41154)
 
 ```console
 #!/bin/bash
