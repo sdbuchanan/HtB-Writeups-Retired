@@ -91,7 +91,7 @@ Nmap done: 1 IP address (1 host up) scanned in 14.41 seconds
 ```
 Looks like we've got **22** and **80** open but **443** is closed. That is interesting. Unsure of what to make of it for now.
 
-lets go to http://10.10.10.146:80. It just has plain html saying:
+lets go to http://10.10.10.146:80. It just has some plain ole html saying:
 
 ```html
 "Hello mate, we're building the new FaceMash!
