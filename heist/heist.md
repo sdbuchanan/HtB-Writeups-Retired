@@ -211,7 +211,7 @@ Support Admin
 ```
 I tried logging into the web app with both rout3r and admin and their corresponding passwords. I tried both Hazard and Support Admin with the stealth1agent password - no success. What else could we use these for? I checked back to my nmap scan and we did not fully enumerate on all the ports open yet - lets explore that further.
 
-We also had **135**: WindowsRPC and **445**: SMB. To me, the most attractive one to hit first is going to be **445**. 
+We also had ports **135** (WindowsRPC) and **445** (SMB). To me, the most attractive one to hit first is going to be **445**. 
 
 ```console
 Host script results:
@@ -221,7 +221,7 @@ Host script results:
 |_smb-vuln-ms10-054: false
 |_smb-vuln-ms10-061: Could not negotiate a connection:SMB: Failed to receive bytes: ERROR
 ```
-Nmap's smb scans did not receive any results. Let's try connecting with all the usernames we've got, the only interesting result we got was off Hazard:
+Nmap's smb scans did not receive any results. Let's try connecting with all the usernames we've got, the only interesting result we got was from the Hazard & stealth1agent pair of credentials:
 
 ```console
 root@endeavour:~/htb/heist/# smbclient -L //10.10.10.149/ -U Hazard
@@ -236,7 +236,7 @@ Reconnecting with SMB1 for workgroup listing.
 do_connect: Connection to 10.10.10.149 failed (Error NT_STATUS_IO_TIMEOUT)
 Failed to connect with SMB1 -- no workgroup available
 ```
-Lets see if we can dig any further:
+Lets see if we can dig any further with smbmap:
 
 ```console
 root@endeavour:~/htb/heist/# smbmap -H 10.10.10.149 -u Hazard -p 'stealth1agent'
@@ -250,7 +250,7 @@ root@endeavour:~/htb/heist/# smbmap -H 10.10.10.149 -u Hazard -p 'stealth1agent'
 	IPC$                                              	READ ONLY
 ```
 
-So it looks like we have read access to IPC$. Searching again for tools to poke this further gets us to a tool called [impacket](https://github.com/SecureAuthCorp/impacket). Lets use a tool from this suite called [smbclient.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbclient.py)
+So it looks like we have read access to IPC$. Searching again for tools to poke this further gets us to a tool called [impacket](https://github.com/SecureAuthCorp/impacket). Lets use a tool from this suite called [smbclient.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/smbclient.py).
 
 ```console
 root@endeavour:~/impacket/examples# ./smbclient.py hazard:stealth1agent@10.10.10.149
