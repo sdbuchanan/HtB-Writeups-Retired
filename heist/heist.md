@@ -457,7 +457,7 @@ Awesome - user flag!
 
 ## Root Flag
 
-Onto the privilege escalation. I noticed that there was another file next to the user flag - todo.txt. That's probably not an accident:
+Onto the privilege escalation. I noticed that there was another file next to the user flag - `todo.txt`. That's probably not an accident:
 
 ```console
 *Evil-WinRM* PS C:\Users\Chase\Desktop> type todo.txt
