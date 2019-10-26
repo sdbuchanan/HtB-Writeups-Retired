@@ -11,9 +11,9 @@ categories:
 # Wall
 ![info_card](./images/info_card.png)
 
-# Information Gathering
+## Information Gathering
 
-## Nmap
+### Nmap
 As usual, I start off with my typical nmap scan: 
 
 ```console
@@ -94,7 +94,7 @@ Ports **22** and **80**. Lets focus on 80 first - head over to http://10.10.10.1
 ![Apache](./images/apache.png)
 **Figure 1:** Apache
 
-Lets try our luck with robots:
+### Robots, Nikto, Dirb
 
 ```console
 root@endeavour:~/htb/wall# curl -i 10.10.10.157/robots.txt
@@ -114,8 +114,7 @@ Content-Type: text/html; charset=iso-8859-1
 <address>Apache/2.4.29 (Ubuntu) Server at 10.10.10.157 Port 80</address>
 </body></html>
 ```
-
-Nothing in robots, lets kick off nikto and dirb scans and research our apache version for anything:
+Not much interesting in robots.
 
 ```console
 root@endeavour:~/htb/wall# nikto -host 10.10.10.157
