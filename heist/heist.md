@@ -57,12 +57,12 @@ So it looks like potentially a Windows-based web app, we've got **80**, **135**,
 ![Login](./images/login.png)  
 **Figure 1:** Login page
 
-We are prompted with a login page. No credentials, but it might let us log in as guest - let's try that.
+We are prompted with a login page. No credentials, but it might let us log in as guest - let's try that. We are greeted with a thread of some kind where the user Hazard is having an issue with his cisco router, and the Support Admin is assisting. 
 
 ![Thread](./images/Thread.png)  
 **Figure 2:** Thread
 
-We are greeted with a thread of some kind where the user Hazard is having an issue with his cisco router, and the Support Admin is assisting. There is also an attachment - of which I assume will be an IOS config:
+There is also an attachment - of which I assume will be an IOS config:
 
 ```console
 version 12.2
@@ -184,8 +184,8 @@ The passwords appear to be two different kinds:
 
 The ones that appear to belong to user rout3r and user admin are type 7 Cisco passwords (this was newly acquired knowledge, not something I already knew) and were easily cracked with this tool: http://www.ifm.net.nz/cookbooks/passwordcracker.html
 
-```username rout3r password 7 0242114B0E143F015F5D1E161713 = $uperP@ssword```
-```username admin privilege 15 password 7 02375012182C1A1D751618034F36415408 = Q4)sJu\Y8qz*A3?d```
+```username rout3r password 7 0242114B0E143F015F5D1E161713 = $uperP@ssword```  
+```username admin privilege 15 password 7 02375012182C1A1D751618034F36415408 = Q4)sJu\Y8qz*A3?d```  
 
 The secret 5 one - I made the assumption that since the two that cracked were type 7, this must be a type 5 one. I found a tool: https://github.com/axcheron/cisco_pwdecrypt that I was able to run and crack that password as well:
 
@@ -207,7 +207,7 @@ rout3r			  $uperP@ssword
 admin 			  Q4)sJu\Y8qz*A3?d
 Hazard			  
 Support Admin
-              stealth1agent
+                          stealth1agent
 ```
 I tried logging into the web app with both rout3r and admin and their corresponding passwords. I tried both Hazard and Support Admin with the stealth1agent password - no success. What else could we use these for? I checked back to my nmap scan and we did not fully enumerate on all the ports open yet - lets explore that further.
 
