@@ -1,22 +1,20 @@
 ---
 title: "Hack The Box - Writeup"
 author: Spencer Buchanan
-date: "2019-10-21"
-subject: "CTF Writeup Template"
-keywords: [HTB, CTF, Hack The Box, Security]
-lang: "en"
-titlepage: true
-titlepage-text-color: "FFFFFF"
-titlepage-color: "0c0d0e"
-titlepage-rule-color: "8ac53e"
-logo: "./images/badge.png"
-logo-width: 350
-...
+date: "2019-10-25"
+layout: post
+description: Hack the Box - Writeup writeup
+permalink: /hack-the-box-writeup/
+categories:
+  - writeup
+---
+# Writeup
+![info_card](./images/info_card.png)
 
-# Information Gathering
+## Information Gathering
 
-## Nmap
-As usual, I start off with my typical nmap scan: 
+### Nmap
+I start off with a standard nmap scan: 
 
 ```console
 root@endeavour:~/htb/writeup# nmap -sV -sC -T4 -vv 10.10.10.138 -oA 10-10-10-138
@@ -94,14 +92,14 @@ Nmap done: 1 IP address (1 host up) scanned in 13.35 seconds
            Raw packets sent: 2004 (88.152KB) | Rcvd: 5 (204B)
 
 ```
-FLooks like we've got **22** and **80** open. I probably want to ignore 22 for now and focus on 80.
+FLooks like we've got **22** and **80** open. I probably want to ignore **22** for now and focus on **80**.
 
 http://10.10.10.138/ shows the following:
 
-![http://10.10.10.138](./images/101010138.png)
-\ **Figure 1:** http://10.10.10.138/
+![http://10.10.10.138](./images/101010138.png)  
+**Figure 1:** http://10.10.10.138/
 
-## Robots.txt
+### Robots.txt
 
 ```console
 root@endeavour:~/htb/writeup# curl -i 10.10.10.138/robots.txt
@@ -129,22 +127,22 @@ Content-Type: text/plain
 User-agent: * 
 Disallow: /writeup/
 ```
-Disallow /writeup/ - let's go find out what that is:
+Disallow `/writeup/` - let's go find out what that is:
 
-![10.10.10.138/writeup/](./images/writeup.png)
-\ **Figure 2:** 10.10.10.138/writeup/
+![10.10.10.138/writeup/](./images/writeup.png)  
+**Figure 2:** 10.10.10.138/writeup/
 
 Each page is a writeup to a few different machines, I don’t immediately see anything in the writeups that is helpful, but I need to remember to check back in.
 
 One thing I notice is that every page except for the original home page has a little message at the bottom:
 
-![Vim. NOT.](./images/vim.png)
-\ **Figure 3:** Vim. NOT.
+![Vim. NOT.](./images/vim.png)  
+**Figure 3:** Vim. NOT.
 
 The Wappalyzer Firefox extension shows the /writeup/ page to be using:
 
-![Wappalyzer](./images/wappalyzer.png)
-\ **Figure 4:** Wappalyzer
+![Wappalyzer](./images/wappalyzer.png)  
+**Figure 4:** Wappalyzer
 
 Also, this may be a shitty assumption that I should not be making, the original page says that there is an Eeyore DoS protection script that will ban bad IPs when there are apache 40x errors. I want to not be banned so I am going to limit any dirbustering for now.
 
