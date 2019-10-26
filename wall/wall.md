@@ -189,7 +189,7 @@ there is a 19.04 RCE, but in reading it: Exploit Title: Centreon v19.04 **authen
 ```http://10.10.10.157/centreon/static/js/```  
 ```http://10.10.10.157/centreon/admin.php```  
 
-Looking through the source in the API there is a CSRF token we need to get around if we are going to brute force this login. Google leads us to: [anti-CRSF_Token-Bruteforce(]https://github.com/J3wker/anti-CSRF_Token-Bruteforce). It's usage is the following:
+Looking through the source in the API there is a CSRF token we need to get around if we are going to brute force this login. Google leads us to: [anti-CRSF_Token-Bruteforce](https://github.com/J3wker/anti-CSRF_Token-Bruteforce). It's usage is the following:
 
 ```console
 python3 brutecsrf.py --url http://test.com/index.php --csrf name_csrf_token_in_HTML_form --u admin --fuser user_name_in_HTML_form --passwd password_name_in_HTML_form
