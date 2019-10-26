@@ -9,10 +9,10 @@ categories:
   - writeup
 
 ---
+# Heist
 ![info_card](./images/info_card.png)
 
-
-# Information Gathering
+## Information Gathering
 
 ### Nmap
 
@@ -200,15 +200,15 @@ The secret 5 one - I made the assumption that since the two that cracked were ty
 
 So at this point we have the following credentials:
 
-```
-username 		  password
----------------------------------
-rout3r			  $uperP@ssword
-admin 			  Q4)sJu\Y8qz*A3?d
-Hazard			  
-Support Admin
-                          stealth1agent
-```
+
+|Username|Password|
+|:---:|:---:|
+|rout3r|`$uperP@ssword`|
+|admin|`Q4)sJu\Y8qz*A3?d`|
+| Hazard        |      |
+| Support Admin |       |
+|  | `stealth1agent`      |
+			  
 I tried logging into the web app with both rout3r and admin and their corresponding passwords. I tried both Hazard and Support Admin with the stealth1agent password - no success. What else could we use these for? I checked back to my nmap scan and we did not fully enumerate on all the ports open yet - lets explore that further.
 
 We also had ports **135** (WindowsRPC) and **445** (SMB). To me, the most attractive one to hit first is going to be **445**. 
