@@ -169,7 +169,7 @@ Cool, its prompting for authentication. This seems like a thing we should enumer
 
 Looks like we need to pip install termcolor and get a word list, I like to use rockyou.txt because its dumb to waste time brute forcing and most other boxes I’ve used also use the same list. Let’s run the exploit and see what we get:
 
-![Exploit](./images/exploit.png)
+![Exploit](./images/exploit.gif)
 \ **Figure 5:** exploit
 
 ```console
