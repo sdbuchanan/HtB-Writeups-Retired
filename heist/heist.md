@@ -379,18 +379,17 @@ Impacket v0.9.21-dev - Copyright 2019 SecureAuth Corporation
 
 Great - so we got the workgroup: SUPPORTDESK and a bunch of other users we can try. Lets update our credential table:
 
-```console
-username 		  password
----------------------------------
-rout3r			  $uperP@ssword
-admin 			  Q4)sJu\Y8qz*A3?d
-Hazard			  stealth1agent
-Support Admin
-Chase 			  
-Jason         
-Administrator 
-Guest              
-```
+|Username|Password|
+|:---:|:---:|
+|rout3r|`$uperP@ssword`|
+|admin|`Q4)sJu\Y8qz*A3?d`|
+|Hazard| `stealth1agent`|
+|Support Admin|       |
+|Chase |      |
+|Jason | |
+|Administrator | |
+|Guest | |
+
 Enumerating on the port that actually had something to it, **5985**, I did find a tool that we can use in conjunction that open port: https://github.com/Hackplayers/evil-winrm
 
 Manually bruteforcing through all the combinations of credentials is what I deemed the most efficient at the time, and we did end up getting some success:
