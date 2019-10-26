@@ -379,7 +379,7 @@ Impacket v0.9.21-dev - Copyright 2019 SecureAuth Corporation
 1013: SUPPORTDESK\Jason (SidTypeUser)
 ```
 
-Great - so I got the workgroup: SUPPORTDESK and a bunch of other users I can try. Lets update our credential table:
+Great - so I got the workgroup: SUPPORTDESK and a bunch of other users I can try. Lets update my credential table:
 
 |Username|Password|
 |:---:|:---:|
@@ -457,7 +457,7 @@ Awesome - user flag!
 
 ## Root Flag
 
-Onto the root flag. I noticed that there was another file next to the user flag - todo.txt. That's probably not an accident:
+Onto the privilege escalation. I noticed that there was another file next to the user flag - todo.txt. That's probably not an accident:
 
 ```console
 *Evil-WinRM* PS C:\Users\Chase\Desktop> type todo.txt
@@ -471,7 +471,7 @@ Done:
 
 Interesting, if I take this at face value - the guest account is restricted, but there is a broken router config somewhere and there might be new issues in an issues list. Not sure what or where that is yet. Again, lets pocket that for later and just keep an eye out as I enumerate for privilege escalation paths.
 
-I do not do that many Windows machines, as odd as it may seem being primarily a windows user, I am more comfortable in my linux enumeration and privilege escalation. I did have in my notes from OSCP a Windows Enumeration script that served me well: https://github.com/411Hall/JAWS. It was pretty simple to get it over to the box using EvilWinRM.
+I do not do that many Windows machines, as odd as it may seem being primarily a windows user, I am more comfortable in my linux enumeration and privilege escalation. I did have in my notes from OSCP a Windows Enumeration script that served me well: [Just Another WindowsEnum Script](https://github.com/411Hall/JAWS). It was pretty simple to get it over to the box using EvilWinRM.
 
 For the sake of the length of the writeup I am cutting down the output to only what was actually relevent to solving the box:
 
@@ -496,7 +496,7 @@ Windows Portable Devices
 Windows Security                           
 WindowsPowerShell
 ```
-In thinking about the hint was were given in the `todo.txt`, where would someone be keeping track of an issues list? The only things from the above list are **php**, and **firefox**, and when I did a Get-Processes firefox has 4 running processes. Lets take a look at that:
+In thinking about the hint was were given in the `todo.txt`, where would someone be keeping track of an issues list? The only things from the above list are **php**, and **firefox**, and when I did a `Get-Processes` firefox has 4 running processes. Lets take a look at that:
 
 ```console
 *Evil-WinRM* PS C:\Program Files\Mozilla Firefox> $PSVersionTable
@@ -519,7 +519,7 @@ In moving back to firefox - I came across this: https://securityonline.info/proc
 
 Procdump is a CLI utility that can monitor an application as it crashes and create diagnostic dumps of data. In taking a look at the running processes again - firefox was eating up a ton of CPU, maybe it was already in a crashed state? I decided to give this a try and got an Powershlle Mafia procdump over to the box and tested it out:
 
-[PowerShellMafia: Out-Minidump.ps1](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Out-Minidump.ps1)
+[`PowerShellMafia: Out-Minidump.ps1`](https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Out-Minidump.ps1)
 
 ```console
 Evil-WinRM* PS C:\Users\Chase\Documents> Out-Minidump -Process (Get-Process -Id 6152)
