@@ -304,7 +304,7 @@ So I am going to try to attach a notification with an EXE/script and add a small
 ![exe_script](./images/exe_script.PNG)  
 **Figure 3:** exe_script  
 
-``console
+```console
 execute program, parameter: test.txt;tree /f c:\users\admin > c:\sdb_test.txt
 ```
 
