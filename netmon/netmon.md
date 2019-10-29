@@ -72,7 +72,7 @@ Host script results:
 
 This might be some sort of windows webserver? I will head over to http://10.10.10.152/ and see what I can find:
 
-![Login](./images/login.png)  
+![Login](./images/login.PNG)  
 **Figure 1:** PRTG Login
 
 From googling around this is some sort of **net**work **mon**itor that can be operated completely via AJAX-based web gui. Also accoridng to google the default credentials are **username:** `prtgadmin` and **password:** `prtgadmin`. I did not have any success with default credentials.  
@@ -242,14 +242,14 @@ local: PRTG Configuration.old.bak remote: PRTG Configuration.old.bak
 
 Okay let's see what we can find in these:
 
-![PrTg@dmin2018](./images/pass.png)  
+![PrTg@dmin2018](./images/pass.PNG)  
 **Figure 2:** PrTg@dmin2018
 
 That looks a whole lot like a password to me. Let's try to log into the web gui with this - no dice. Password was not accepted. That seemed a lot like what I should be doing, I am not sure why it is not working. I restarted the box and tried again incase someone else had changed it to troll, but that was not the case. 
 
 Sometimes you need to think more like a user! This was a backup of an old config file and the date of the password was **2018**. How do people manage their passwords? They just increment up 1 past the old one! We should try `PrTg@dmin2019` and see if that works:
 
-![Welcome!](./images/prtg.png)  
+![Welcome!](./images/prtg.PNG)  
 **Figure 3:** Welcome!  
 
 Sweet! That worked - I am actually pretty surprised that worked. Now that we have working credentials we should try that RCE from before.
@@ -301,7 +301,7 @@ I found a blog post explaining how this exploit really works on [codewatch](http
 
 So I am going to try to attach a notification with an EXE/script and add a small test script to it and see if it works:
 
-![exe_script](./images/exe_script.png)  
+![exe_script](./images/exe_script.PNG)  
 **Figure 3:** exe_script  
 
 ``console
