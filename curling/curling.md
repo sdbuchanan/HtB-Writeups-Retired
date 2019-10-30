@@ -66,14 +66,14 @@ I used that string to try to log into the original page where there is a spot to
 
 Great - I want to go try to log into the site again using this as the password rather than the encoded string. I a few usernames that I thought would work:
 
-`admin` + `Curling2018!` - **Failure**
-`Administrator`+ `Curling2018!` - **Failure**
+`admin` + `Curling2018!` - **Failure**  
+`Administrator`+ `Curling2018!` - **Failure**  
 
 but they didn't work. We need to enumerate more to figure out who actually logs into this thing. If what we have isn't the admin password, it might be the user password? I see that the posts are written by **Super User**, let's try that:
 
 `Super User`+ `Curling2018!` - **Failure**
 
-While the posts are *posted* by Super User, one of them is signed **Floris**
+While the posts are *posted* by Super User, one of them is signed **Floris**.
 
 ![credentials](./images/credentials.png)  
 **Figure 4:** Floris  
@@ -88,7 +88,7 @@ Once we get logged into the site it looks like we can only make posts? Do we hav
 ![admin](./images/admin.png)  
 **Figure 4:** Admin  
 
-we successfully logged into the admin panel. This is probably more promising than figuring out a way to XSS our way in through a blog post. Lets go googling for some Joomla! vulnerabilities or security bulletins. While I found a couple things, the one that was most interesting was a module that allowed for PHP to be executed on the server called [DirectPHP](https://forum.joomla.org/viewtopic.php?t=436618). 
+We successfully logged into the admin panel. This is probably more promising than figuring out a way to XSS our way in through a blog post. Lets go googling for some Joomla! vulnerabilities or security bulletins. While I found a couple things, the one that was most interesting was a module that allowed for PHP to be executed on the server called [DirectPHP](https://forum.joomla.org/viewtopic.php?t=436618). 
 
 Installing the module was pretty straight forward. After downloading it I went to `Extensions > Manage > Install` and uploaded the addon `.zip` file. We then have to go enable it in the `Extensions > Manage > Manage` menu and enabled it. 
 
@@ -191,10 +191,12 @@ bzip2: Can't guess original name for password.bzip2 -- using password.bzip2.out
 ```
 What is our output?
 
-```^_~K^H^H~Dl^D[^@^Cpassword^@^A~M^@r�BZh91AY&SY6�~M~D^@^@^?^?~D�^P~@@@!^?~D^H^@^D
+```console
+^_~K^H^H~Dl^D[^@^Cpassword^@^A~M^@r�BZh91AY&SY6�~M~D^@^@^?^?~D�^P~@@@!^?~D^H^@^D
 PtD��^@^@~@^H ^@t"d�h^@^@h^COPIS@^@^@^@^@�~R6~X~D^O8^BET>P@�#I b�~C|3�~\x^V~H���
 ^B�^S�~V��(*N~M&^N~LH��k^_^O^U1��^T^Cx^U^\��"~I{�ೱ~L^@�]�^T�B@�^^6^P^N~Zm�~M^
-@^@^@```
+@^@^@
+```
 
 A bunch of garbage, but I see the word **password**. So that's probably something.
 
@@ -204,7 +206,7 @@ file password.bzip2.out
 password.bzip2.out: gzip compressed data, was "password", last modified: Tue May 22 19:16:20 2018, from Unix
 ```
 
-Oh **so** cool - its a gzip archive now. I am going to rename it because tab complete isn't working and I am sick of typing the entire name.
+Oh *soooo* cool - its a gzip archive now. I am going to rename it because tab complete isn't working and I am sick of typing the entire name.
 
 ```console
 www-data@curling:/tmp/sdb$ mv password.bzip2.out pw.gz
@@ -235,7 +237,7 @@ cat pw.out
 password.txt0000644000000000000000000000002313301066143012147 0ustar  rootroot5d<wdCbdZu)|hChXll
 www-data@curling:/tmp/sdb$
 ```
-Okay - this looks like a real thing. `root` `root` `5d<wdCbdZu)|hChXll`. But let's be sure its not yet another matryoshka. 
+Okay - this looks like a real thing - `root`, `root`, and `5d<wdCbdZu)|hChXll`, but let's be sure its not yet another matryoshka. 
 
 ```console
 www-data@curling:/tmp/sdb$ file pw.out
