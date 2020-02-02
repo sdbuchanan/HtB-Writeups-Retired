@@ -8,7 +8,7 @@ permalink: /hack-the-box-bashed/
 categories:
   - writeup
 ---
-# MACHINENAME
+# bashed
 ![info_card](./images/info_card.png)
 
 # Information Gathering
