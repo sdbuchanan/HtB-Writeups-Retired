@@ -176,7 +176,7 @@ drwxrwxr-x 2 arrexel arrexel 4096 Dec 4 2017 .nano
 www-data@bashed
 :/home/arrexel# cat user.txt
 
-2c281f318555dbc1b856957c7147bfc1
+2c281f***************47bfc1
 ```
 ## Root Flag
 
@@ -300,9 +300,9 @@ www-data@bashed
 www-data@bashed
 :/scripts# cat /tmp/root.txt
 
-cc4f0afe3a1026d402ba10329674a8e2
+cc4f0afe**************674a8e2
 ```
 
 # Conclusion
 
-I am going to be taking another attempt at the OSCP this year. Before I jump back into that I am going to try and hit all the OSCP-like boxes in HTB. This was the first machine on my list.
+I am going to be taking another attempt at the OSCP this year. Before I jump back into that I am going to try and hit all the OSCP-like boxes in HTB. This was the first machine on my list, it was a nice little box. I did not run into too many challenges, it was a nice box to get back into the swing of it.
