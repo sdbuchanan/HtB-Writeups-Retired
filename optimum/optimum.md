@@ -413,4 +413,4 @@ C:\Users\Administrator\Desktop>
 
 # Conclusion
 
-As I wrote in **Bashed's** conclusion, I am going to re-take OSCP this year and I want to make my way through all the OSCP-like boxes in HTB prior to re-upping my lab time. This was the first Windows box from that group I attempted. This box was pretty *okay* I guess, for a windows box. They will forever be less straight forward for some reason to me. My process was pretty good here I think, I did not fall into any rabbit holes and felt like I completed this box in a reasonable amount of time.
+As I wrote in [Bashed's](https://github.com/sdbuchanan/HtB-Writeups-Retired/blob/master/bashed/bashed.md) conclusion, I am going to re-take OSCP this year and I want to make my way through all the OSCP-like boxes in HTB prior to re-upping my lab time. This was the first Windows box from that group I attempted. This box was pretty *okay* I guess, for a windows box. They will forever be less straight forward for some reason to me. My process was pretty good here I think, I did not fall into any rabbit holes and felt like I completed this box in a reasonable amount of time.
