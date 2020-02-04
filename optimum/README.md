@@ -151,7 +151,7 @@ dir
                3 Dir(s)  31.894.876.160 bytes free
 ```
 
-d0c39409d7b994a9a1389ebf38ef5f73
+d0c39409***********8ef5f73
 
 ## Root Flag
 
@@ -406,7 +406,7 @@ dir
 
 C:\Users\Administrator\Desktop>type root.txt
 type root.txt
-51ed1b36553c8461f4552c2e92b3eeed
+51ed1b**************e92b3eeed
 C:\Users\Administrator\Desktop>
 
 ```
